@@ -1,10 +1,10 @@
 # XMC MCU: Flash Program
 
-This code example demonstrates how to erase a sector of the flash, write data to the sector and check the data for correctness.
+This code example demonstrates how to erase a sector of the flash, write data to the sector, and check the data for correctness.
 
 ## Requirements
 
-- [ModusToolbox® software](https://www.cypress.com/products/modustoolbox-software-environment) v2.3
+- [ModusToolbox&trade; software](https://www.cypress.com/products/modustoolbox-software-environment) v2.3
 - [SEGGER J-Link software](https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack)
 - Programming Language: C
 - Associated Parts: All [XMC™ MCU](https://www.infineon.com/cms/en/product/microcontroller/32-bit-industrial-microcontroller-based-on-arm-cortex-m/) parts
@@ -114,6 +114,14 @@ Various CLI tools include a `-h` option that prints help information to the term
 
 You can debug the example to step through the code. In the IDE, use the **\<Application Name> Debug (JLink)** configuration in the **Quick Panel**. For more details, see the "Program and Debug" section in the [Eclipse IDE for ModusToolbox User Guide](https://www.cypress.com/MTBEclipseIDEUserGuide).
 
+## Design and implementation
+
+The code consists of two parts:
+
+- **Part 1:** Defines the `data[XMC_FLASH_WORDS_PER_PAGE]` array. This array contains 256 bytes of data, which should be programmed into the flash memory. For both kits, it also defines the starting address of the flash page from where the programming starts. This starting address is saved in the variable `XMC_SECTOR_ADDR`, which contains different addresses depending on the selected kit. GPIO pins are also defined for LED toggling using the 'pin 1.0' personality. The pins are accessed using their labels: CYBSP_USER_LED_PORT and CYBSP_USER_LED_PIN. Finally, the LED is turned ON when the output is set to HIGH.
+
+- **Part 2:** Erases the sector using the `XMC_FLASH_EraseSector()` function. This requires an address pointer to the starting address of the flash page from where the erase starts (`XMC_SECTOR_ADDR`). Next, `data[XMC_FLASH_WORDS_PER_PAGE]` will be programmed into the flash using the `XMC_FLASH_ProgramPage()` function, which requires the starting address and a pointer to the source address (`data[XMC_FLASH_WORDS_PER_PAGE]`) where the targeted data is located. Finally, the flash process is verified by comparing all elements of the `data[XMC_FLASH_WORDS_PER_PAGE]` array stored in the RAM and the same elements programmed in the flash. The LED will be turned OFF after the flash programming is complete.
+
 ## Related Resources
 
 | Kit Guides                                            |                                                              |
@@ -145,6 +153,7 @@ Document Title: *CE232570* - *XMC MCU: Flash Program*
 | Version | Description of Change |
 | ------- | --------------------- |
 | 1.0.0   | New code example      |
+| 1.0.1   | Updated README        |
 ------
 
 All other trademarks or registered trademarks referenced herein are the property of their respective owners.
