@@ -4,25 +4,33 @@ This code example demonstrates how to erase a sector of the flash, write data to
 
 [View this README on GitHub.](https://github.com/Infineon/mtb-example-xmc-flash-program)
 
-[Provide feedback on this code example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyMzI1NzAiLCJTcGVjIE51bWJlciI6IjAwMi0zMjU3MCIsIkRvYyBUaXRsZSI6IlhNQyZ0cmFkZTsgTUNVOiBGbGFzaCBwcm9ncmFtIiwicmlkIjoiYXJlbSIsIkRvYyB2ZXJzaW9uIjoiMi4wLjAiLCJEb2MgTGFuZ3VhZ2UiOiJFbmdsaXNoIiwiRG9jIERpdmlzaW9uIjoiTUNEIiwiRG9jIEJVIjoiSUNXIiwiRG9jIEZhbWlseSI6Ik4vQSJ9)
+[Provide feedback on this code example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyMzI1NzAiLCJTcGVjIE51bWJlciI6IjAwMi0zMjU3MCIsIkRvYyBUaXRsZSI6IlhNQyZ0cmFkZTsgTUNVOiBGbGFzaCBwcm9ncmFtIiwicmlkIjoiYXJlbSIsIkRvYyB2ZXJzaW9uIjoiMi4xLjAiLCJEb2MgTGFuZ3VhZ2UiOiJFbmdsaXNoIiwiRG9jIERpdmlzaW9uIjoiTUNEIiwiRG9jIEJVIjoiSUNXIiwiRG9jIEZhbWlseSI6Ik4vQSJ9)
 
 ## Requirements
 
 - [ModusToolbox&trade; software](https://www.infineon.com/modustoolbox) v3.0
 - [SEGGER J-Link software](https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack)
 - Programming language: C
-- Associated parts: All [XMC™ MCU](https://www.infineon.com/cms/en/product/microcontroller/32-bit-industrial-microcontroller-based-on-arm-cortex-m/) parts
+- Associated parts: All [XMC&trade; MCU](https://www.infineon.com/cms/en/product/microcontroller/32-bit-industrial-microcontroller-based-on-arm-cortex-m/) parts
 
 ## Supported toolchains (make variable 'TOOLCHAIN')
 
-- GNU Arm® embedded compiler v10.3.1 (`GCC_ARM`) - Default value of `TOOLCHAIN`
+- GNU Arm&reg; embedded compiler v10.3.1 (`GCC_ARM`) - Default value of `TOOLCHAIN`
 - Arm&reg; compiler v6.16 (`ARM`)
 - IAR C/C++ compiler v9.30.1 (`IAR`)
 
 ## Supported kits (make variable 'TARGET')
 
-- [XMC1400 boot kit](https://www.infineon.com/cms/en/product/evaluation-boards/kit_xmc14_boot_001/) (`TARGET_KIT_XMC14_BOOT_001`)
 - [XMC4700 relax kit](https://www.infineon.com/cms/en/product/evaluation-boards/kit_xmc47_relax_v1/) (`KIT_XMC47_RELAX_V1`) - Default value of `TARGET`
+- [XMC1100 boot kit](https://www.infineon.com/cms/en/product/evaluation-boards/kit_xmc11_boot_001/) (`KIT_XMC11_BOOT_001`)
+- [XMC1200 boot kit](https://www.infineon.com/cms/en/product/evaluation-boards/kit_xmc12_boot_001/) (`KIT_XMC12_BOOT_001`)
+- [XMC1300 boot kit](https://www.infineon.com/cms/en/product/evaluation-boards/kit_xmc13_boot_001/) (`KIT_XMC13_BOOT_001`)
+- [XMC1400 boot kit](https://www.infineon.com/cms/en/product/evaluation-boards/kit_xmc14_boot_001/) (`KIT_XMC14_BOOT_001`)
+- [XMC4200 Platform2Go XTREME kit](https://www.infineon.com/cms/en/product/evaluation-boards/kit_xmc_plt2go_xmc4200/) (`KIT_XMC_PLT2GO_XMC4200`)
+- [XMC4300 relax EtherCAT kit](https://www.infineon.com/cms/en/product/evaluation-boards/kit_xmc43_relax_ecat_v1/) (`KIT_XMC43_RELAX_ECAT_V1`)
+- [XMC4400 Platform2Go XTREME kit](https://www.infineon.com/cms/en/product/evaluation-boards/kit_xmc_plt2go_xmc4400/) (`KIT_XMC_PLT2GO_XMC4400`)
+- [XMC4500 relax kit](https://www.infineon.com/cms/en/product/evaluation-boards/kit_xmc45_relax_v1/) (`KIT_XMC45_RELAX_V1`)
+- [XMC4800 relax EtherCAT kit](https://www.infineon.com/cms/en/product/evaluation-boards/kit_xmc48_relax_ecat_v1/) (`KIT_XMC48_RELAX_ECAT_V1`)
 
 ## Hardware setup
 
@@ -38,9 +46,9 @@ This example requires no additional software or tools.
 
 Create the project and open it using one of the following:
 
-<details open><summary><b>In Eclipse IDE for ModusToolbox&trade; software</b></summary>
+<details><summary><b>In Eclipse IDE for ModusToolbox&trade; software</b></summary>
 
-1. Click the **New Application** link in the **Quick Panel** (or, use **File** > **New** > **ModusToolbox&trade; Application**). This launches the [Project Creator](http://www.infineon.com/ModusToolboxProjectCreator) tool.
+1. Click the **New Application** link in the **Quick Panel** (or, use **File** > **New** > **ModusToolbox&trade; Application**). This launches the [Project Creator](https://www.infineon.com/ModusToolboxProjectCreator) tool.
 
 2. Pick a kit supported by the code example from the list shown in the **Project Creator - Choose Board Support Package (BSP)** dialog.
 
@@ -58,17 +66,17 @@ Create the project and open it using one of the following:
 
 6. Click **Create** to complete the application creation process.
 
-For more details, see the [Eclipse IDE for ModusToolbox&trade; software user guide](https://www.infineon.com/MTBEclipseIDEUserGuide) (locally available at *{ModusToolbox&trade; software install directory}/ide_{version}/docs/mtb_ide_user_guide.pdf*).
+For more details, see the [Eclipse IDE for ModusToolbox&trade; software user guide](https://www.infineon.com/MTBEclipseIDEUserGuide) (locally available at *{ModusToolbox&trade; software install directory}/docs_{version}/mt_ide_user_guide.pdf*).
 
 </details>
 
-<details open><summary><b>In command-line interface (CLI)</b></summary>
+<details><summary><b>In command-line interface (CLI)</b></summary>
 
 ModusToolbox&trade; software provides the Project Creator as both a GUI tool and the command line tool, "project-creator-cli". The CLI tool can be used to create applications from a CLI terminal or from within batch files or shell scripts. This tool is available in the *{ModusToolbox&trade; software install directory}/tools_{version}/project-creator/* directory.
 
 Use a CLI terminal to invoke the "project-creator-cli" tool. On Windows, use the command line "modus-shell" program provided in the ModusToolbox&trade; software installation instead of a standard Windows command-line application. This shell provides access to all ModusToolbox&trade; software tools. You can access it by typing `modus-shell` in the search box in the Windows menu. In Linux and macOS, you can use any terminal application.
 
-This tool has the following arguments:
+The "project-creator-cli" tool has the following arguments:
 
 Argument | Description | Required/optional
 ---------|-------------|-----------
@@ -79,7 +87,7 @@ Argument | Description | Required/optional
 
 <br>
 
-The following example will clone the "[Flash program](https://github.com/Infineon/mtb-example-xmc-flash-program)" application with the desired name "Flash_program" configured for the *KIT_XMC47_RELAX_V1* BSP into the specified working directory, *C:/mtb_projects*:
+The following example clones the "[Flash program](https://github.com/Infineon/mtb-example-xmc-flash-program)" application with the desired name "Flash_program" configured for the *KIT_XMC47_RELAX_V1* BSP into the specified working directory, *C:/mtb_projects*:
 
    ```
    project-creator-cli --board-id KIT_XMC47_RELAX_V1 --app-id mtb-example-xmc-flash-program --user-app-name Flash_program --target-dir "C:/mtb_projects"
@@ -87,19 +95,54 @@ The following example will clone the "[Flash program](https://github.com/Infineo
 
 **Note:** The project-creator-cli tool uses the `git clone` and `make getlibs` commands to fetch the repository and import the required libraries. For details, see the "Project creator tools" section of the [ModusToolbox&trade; software user guide](https://www.infineon.com/ModusToolboxUserGuide) (locally available at *{ModusToolbox&trade; software install directory}/docs_{version}/mtb_user_guide.pdf*).
 
+To work with a different supported kit later, use the [Library Manager](https://www.infineon.com/ModusToolboxLibraryManager) to choose the BSP for the supported kit. You can invoke the Library Manager GUI tool from the terminal using `make library-manager` command or use the Library Manager CLI tool "library-manager-cli" to change the BSP.
+
+The "library-manager-cli" tool has the following arguments:
+
+Argument | Description | Required/optional
+---------|-------------|-----------
+`--add-bsp-name` | Name of the BSP that should be added to the application | Required
+`--set-active-bsp` | Name of the BSP that should be as active BSP for the application | Required
+`--add-bsp-version`| Specify the version of the BSP that should be added to the application if you do not wish to use the latest from manifest | Optional
+`--add-bsp-location`| Specify the location of the BSP (local/shared) if you prefer to add the BSP in a shared path | Optional
+
+<br />
+
+Following example adds the KIT_XMC48_RELAX_ECAT_V1 BSP to the already created application and makes it the active BSP for the app:
+
+   ```
+   library-manager-cli --project "C:/mtb_projects/Flash_program" --add-bsp-name KIT_XMC48_RELAX_ECAT_V1 --add-bsp-version "latest-v4.X" --add-bsp-location "local"
+
+   library-manager-cli --project "C:/mtb_projects/Flash_program" --set-active-bsp APP_KIT_XMC48_RELAX_ECAT_V1
+   ```
+
 </details>
 
-<details open><summary><b>In third-party IDEs</b></summary>
+<details><summary><b>In third-party IDEs</b></summary>
 
-**Note:** Only VS Code is supported.
+Use one of the following options:
 
-1. Follow the instructions from the **In command-line interface (CLI)** section to create the application, and import the libraries using the `make getlibs` command.
+- **Use the standalone [Project Creator](https://www.infineon.com/ModusToolboxProjectCreator) tool:**
 
-2. Export the application to a supported IDE using the `make <ide>` command.
+   1. Launch Project Creator from the Windows Start menu or from *{ModusToolbox&trade; software install directory}/tools_{version}/project-creator/project-creator.exe*.
 
-   For a list of supported IDEs and more details, see the "Exporting to IDEs" section of the [ModusToolbox&trade; software user guide](https://www.infineon.com/ModusToolboxUserGuide) (locally available at *{ModusToolbox&trade; software install directory}/docs_{version}/mtb_user_guide.pdf*).
+   2. In the initial **Choose Board Support Package** screen, select the BSP, and click **Next**.
 
-3. Follow the instructions displayed in the terminal to create or import the application as an IDE project.
+   3. In the **Select Application** screen, select the appropriate IDE from the **Target IDE** drop-down menu.
+
+   4. Click **Create** and follow the instructions printed in the bottom pane to import or open the exported project in the respective IDE.
+
+<br />
+
+- **Use command-line interface (CLI):**
+
+   1. Follow the instructions from the **In command-line interface (CLI)** section to create the application.
+
+   2. Export the application to a supported IDE using the `make <ide>` command.
+
+   3. Follow the instructions displayed in the terminal to create or import the application as an IDE project.
+
+For a list of supported IDEs and more details, see the "Exporting to IDEs" section of the [ModusToolbox&trade; software user guide](https://www.infineon.com/ModusToolboxUserGuide) (locally available at *{ModusToolbox&trade; software install directory}/docs_{version}/mtb_user_guide.pdf*).
 
 </details>
 
@@ -112,7 +155,7 @@ The following example will clone the "[Flash program](https://github.com/Infineo
    1. Select the application project in the Project Explorer.
 
    2. In the **Quick Panel**, scroll down, and click **\<Application Name> Program (JLink)**.
-   
+
 3. The LED will be turned on before start of programming. Programming is executed in three steps:
 
    1. Erase a sector inside the flash.
@@ -141,15 +184,15 @@ Resources  | Links
 -----------|----------------------------------
 Code examples  | [Using ModusToolbox&trade; software](https://github.com/Infineon/Code-Examples-for-ModusToolbox-Software) on GitHub
 Device documentation | [XMC1000 family datasheets](https://www.infineon.com/cms/en/product/microcontroller/32-bit-industrial-microcontroller-based-on-arm-cortex-m/32-bit-xmc1000-industrial-microcontroller-arm-cortex-m0/#document-group-myInfineon-49) <br> [XMC4000 family datasheets](https://www.infineon.com/cms/en/product/microcontroller/32-bit-industrial-microcontroller-based-on-arm-cortex-m/32-bit-xmc4000-industrial-microcontroller-arm-cortex-m4/#document-group-myInfineon-49) <br> [XMC1000 family technical reference manuals](https://www.infineon.com/cms/en/product/microcontroller/32-bit-industrial-microcontroller-based-on-arm-cortex-m/32-bit-xmc1000-industrial-microcontroller-arm-cortex-m0/#document-group-myInfineon-44) <br> [XMC4000 family technical reference manuals](https://www.infineon.com/cms/en/product/microcontroller/32-bit-industrial-microcontroller-based-on-arm-cortex-m/32-bit-xmc4000-industrial-microcontroller-arm-cortex-m4/#document-group-myInfineon-44)
-Development kits |[XMC&trade; eval boards](https://www.infineon.com/cms/en/product/microcontroller/32-bit-industrial-microcontroller-based-on-arm-cortex-m/#boards)
-Libraries on GitHub | [mtb-xmclib-cat3](https://github.com/Infineon/mtb-xmclib-cat3) – XMC&trade; peripheral driver library (XMCLib) and docs
-Tools | [Eclipse IDE for ModusToolbox&trade; software](https://www.infineon.com/modustoolbox) – ModusToolbox&trade; software is a collection of easy-to-use software and tools enabling rapid development with Infineon MCUs, covering applications from embedded sense and control to wireless and cloud-connected systems using AIROC&trade; Wi-Fi and Bluetooth® connectivity devices.
+Development kits |[XMC&trade; MCU eval boards](https://www.infineon.com/cms/en/product/microcontroller/32-bit-industrial-microcontroller-based-on-arm-cortex-m/#boards)
+Libraries on GitHub | [mtb-xmclib-cat3](https://github.com/Infineon/mtb-xmclib-cat3) – XMC&trade; MCU peripheral library (XMCLib)
+Tools | [Eclipse IDE for ModusToolbox&trade; software](https://www.infineon.com/modustoolbox) – ModusToolbox&trade; software is a collection of easy-to-use software and tools enabling rapid development with Infineon MCUs, covering applications from embedded sense and control to wireless and cloud-connected systems using AIROC&trade; Wi-Fi and Bluetooth&reg; connectivity devices.
 
 ## Other resources
 
 Infineon provides a wealth of data at www.infineon.com to help you select the right device, and quickly and effectively integrate it into your design.
 
-For XMC&trade; MCU devices, see [32-bit XMC™ Industrial microcontroller based on Arm® Cortex®-M](https://www.infineon.com/cms/en/product/microcontroller/32-bit-industrial-microcontroller-based-on-arm-cortex-m/).
+For XMC&trade; MCU devices, see [32-bit XMC&trade; Industrial microcontroller based on Arm&reg; Cortex&reg;-M](https://www.infineon.com/cms/en/product/microcontroller/32-bit-industrial-microcontroller-based-on-arm-cortex-m/).
 
 ## Document history
 
@@ -160,7 +203,8 @@ Document title: *CE232570* - *XMC&trade; MCU: Flash program*
 | 1.0.0   | New code example |
 | 1.0.1   | Updated README   |
 | 1.1.0   | Added support for new kits|
-| 2.0.0   | Updated to support ModusToolbox&trade; software v3.0; CE will not be backwards compatible with previous versions of ModusToolbox&trade; software. |
+| 2.0.0   | Updated to support ModusToolbox&trade; software v3.0. This CE is not backward compatible with previous version of ModusToolbox&trade; software. |
+| 2.1.0   | Added support for new kits |
 ------
 
 All other trademarks or registered trademarks referenced herein are the property of their respective owners.

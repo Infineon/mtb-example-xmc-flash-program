@@ -4,13 +4,13 @@
 * Description: This is the source code for the XMC MCU: Flash Program Example
 *              for ModusToolbox. This example shows how to erase a sector of
 *              the flash, write data to the sector and check the data for
-*              correctness. Success is indicated by toggling of a LED.
+*              correctness. Success is indicated by toggling a LED.
 *
 * Related Document: See README.md
 *
 ******************************************************************************
 *
-* Copyright (c) 2015-2021, Infineon Technologies AG
+* Copyright (c) 2015-2022, Infineon Technologies AG
 * All rights reserved.
 *
 * Boost Software License - Version 1.0 - August 17th, 2003
@@ -45,13 +45,13 @@
 * Description: This is the source code for the XMC MCU: Flash Program Example
 *              for ModusToolbox. This example shows how to erase a sector of
 *              the flash, write data to the sector and check the data for
-*              correctness. Success is indicated by toggling of a LED.
+*              correctness. Success is indicated by toggling a LED.
 *
 * Related Document: See README.md
 *
 *
 *******************************************************************************
-* Copyright 2021-2022, Cypress Semiconductor Corporation (an Infineon company) or
+* Copyright 2022, Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
 *
 * This software, including source code, documentation and related
@@ -86,24 +86,31 @@
 #include "cybsp.h"
 #include "cy_utils.h"
 #include "xmc_flash.h"
-#include "xmc_device.h"
+#include "cy_retarget_io.h"
+#include <stdio.h>
 
 /*******************************************************************************
 * Defines
 *******************************************************************************/
 /* Declarations for LED toggle timing */
-#define TICKS_PER_SECOND        1000
-#define TICKS_WAIT              500
+#define TICKS_PER_SECOND                1000
+#define TICKS_WAIT                      500
 
-/* Declaration of start address for different kits to demonstrate flash programming */
-/* Start address to demonstrate flash programming on XMC1400 */
-#if (UC_SERIES == XMC14)
-#define XMC_SECTOR_ADDR        (uint32_t *)0x10032000U
+/* Declaration of the start address for different kits to demonstrate flash programming */
+#if (UC_FAMILY == XMC1)
+#if (UC_SERIES == XMC11)
+#define XMC_SECTOR_ADDR                 (uint32_t *)0x10010000U
+#else
+#define XMC_SECTOR_ADDR                 (uint32_t *)0x10032000U
+#endif
 #endif
 
 #if (UC_FAMILY == XMC4)
-#define XMC_SECTOR_ADDR        XMC_FLASH_SECTOR_7
+#define XMC_SECTOR_ADDR                 XMC_FLASH_SECTOR_7
 #endif
+
+/* Define macro to enable/disable printing of debug messages */
+#define ENABLE_XMC_DEBUG_PRINT          (0)
 
 /*******************************************************************************
 * Variables
@@ -160,12 +167,12 @@ void SysTick_Handler(void)
 * Function Name: main
 ********************************************************************************
 * Summary:
-* This is the main function. 
-* A LED will be turned on before start of programming the flash.
+* This is the main function.
+* A LED will be turned on before the start of programming the flash.
 * Programming is executed in three steps:
-*  1. Erase a sector inside flash
+*  1. Erase a sector inside flash.
 *  2. Program the first page (256 bytes) of the sector with the data
-*     and turn off LED.
+*     and turn off the LED.
 *  3. Compare the data to confirm its correctness. If correct, toggle the LED.
 *
 * Parameters:
@@ -190,20 +197,35 @@ int main(void)
         CY_ASSERT(0);
     }
 
+    /* Initialize printf retarget */
+    cy_retarget_io_init(CYBSP_DEBUG_UART_HW);
+
+    #if ENABLE_XMC_DEBUG_PRINT
+        printf("Initialization done\r\n");
+    #endif
+
     /* Turn LED on before flash programming starts */
     XMC_GPIO_SetMode(CYBSP_USER_LED_PORT, CYBSP_USER_LED_PIN, XMC_GPIO_MODE_OUTPUT_PUSH_PULL);
-    /* Note: XMC47 Relax Kit and XMC1400 Boot Kit have inverted polarity on LED */
-#if (UC_FAMILY == XMC1) || (UC_SERIES == XMC48)
+    /* Note: XMC1000 and XMC4000 Families have inverted polarity on LED */
+    #if (UC_FAMILY == XMC1)
     XMC_GPIO_SetOutputLow(CYBSP_USER_LED_PORT, CYBSP_USER_LED_PIN);
-#endif
-#if (UC_FAMILY == XMC4) && !(UC_SERIES == XMC48)
+    #endif
+    #if (UC_FAMILY == XMC4)
     XMC_GPIO_SetOutputHigh(CYBSP_USER_LED_PORT, CYBSP_USER_LED_PIN);
-#endif
+    #endif
 
     /* Step 1: Erase Sector */
     XMC_FLASH_EraseSector(XMC_SECTOR_ADDR);
+    #if ENABLE_XMC_DEBUG_PRINT
+        printf("Sector erased\r\n");
+    #endif
+
     /* Step 2: Program data into flash */
     XMC_FLASH_ProgramPage(XMC_SECTOR_ADDR, data);
+    #if ENABLE_XMC_DEBUG_PRINT
+        printf("Programmed data into flash\r\n");
+    #endif
+
     /* Step 3: Check for errors */
     ptr_flash_data = (uint8_t*) XMC_SECTOR_ADDR;
     ptr_ram_data = (uint8_t*) data;
@@ -219,21 +241,25 @@ int main(void)
       ++ptr_ram_data;
     }
 
-    /* Turn LED off after flash programming finished */
+    /* Turn LED off after flash programming is finished */
     XMC_GPIO_SetMode(CYBSP_USER_LED_PORT, CYBSP_USER_LED_PIN, XMC_GPIO_MODE_OUTPUT_PUSH_PULL);
-    /* Note: XMC47 Relax Kit and XMC1400 Boot Kit have inverted polarity on LED */
-#if (UC_FAMILY == XMC1) || (UC_SERIES == XMC48)
+
+    /* Note: XMC1000 and XMC4000 Families have inverted polarity on LED */
+    #if (UC_FAMILY == XMC1)
     XMC_GPIO_SetOutputHigh(CYBSP_USER_LED_PORT, CYBSP_USER_LED_PIN);
-#endif
-#if (UC_FAMILY == XMC4) && !(UC_SERIES == XMC48)
+    #endif
+    #if (UC_FAMILY == XMC4)
     XMC_GPIO_SetOutputLow(CYBSP_USER_LED_PORT, CYBSP_USER_LED_PIN);
-#endif
+    #endif
 
     /* Check if no incorrect data was found */
     if (errors_found == 0)
     {
-      /* Toggle LED to indicate success by starting system timer */
-      SysTick_Config(SystemCoreClock / TICKS_PER_SECOND);
+        /* Toggle LED to indicate success by starting system timer */
+        SysTick_Config(SystemCoreClock / TICKS_PER_SECOND);
+        #if ENABLE_XMC_DEBUG_PRINT
+            printf("Toggle LED to indicate success by starting system timer\r\n");
+        #endif
     }
 
     while(1);
